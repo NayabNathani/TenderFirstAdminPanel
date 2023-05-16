@@ -14,11 +14,9 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
-import { toast } from 'react-hot-toast';
-import API_URL from '../../../config';
+import API_URL from "../../../config"
 
-const TPermissions = () => {
+const ApprovedTenders = () => {
   const [tenders, setTenders] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -27,7 +25,7 @@ const TPermissions = () => {
   const fetchTenders = async () => {
     try {
       const response = await axios.get(
-        API_URL + `/tender?status=pending&limit=10&page=${page}`,
+        API_URL + `/tender?status=approved&limit=10&page=${page}`,
         { withCredentials: true }
       );
       const { data, totalPages: total } = response.data.result;
@@ -44,43 +42,8 @@ const TPermissions = () => {
     fetchTenders();
   }, [page]);
 
-  const acceptHandler = async tenderId => {
-    try {
-      await axios.post(
-        API_URL + '/tender/approve',
-        { tenderId, approval: 'approved' },
-        { withCredentials: true }
-      );
-      toast({
-        title: 'Tender Approved.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      fetchTenders(); 
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const rejectHandler = async tenderId => {
-    try {
-      await axios.post(
-        API_URL + '/tender/approve',
-        { tenderId, approval: 'rejected' },
-        { withCredentials: true }
-      );
-      toast({
-        title: 'Tender Rejected.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      fetchTenders(); 
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   const prevPageHandler = () => {
     setPage(prevState => (prevState > 1 ? prevState - 1 : 1));
@@ -91,29 +54,27 @@ const TPermissions = () => {
   };
 
   return (
+    <>
     <Box p={['0', '16']} overflowX="auto">
       <Heading
         textTransform={'uppercase'}
         my="16"
         textAlign={['center', 'left']}
-        children="Tender Requests"
+        children="Approved Tenders"
       />
       {isLoading ? (
         <div>Loading...</div>
-      ) : tenders.length === 0 ? (
-        <div>No Tenders Left</div>
       ) : (
         <>
           <TableContainer w={['100vh', 'full']}>
             <Table variant={'simple'} size="lg">
-              <TableCaption>All Requests To Open A Tender</TableCaption>
+              <TableCaption>All Approved Tenders</TableCaption>
               <Thead>
                 <Tr>
                   <Th>Tender Id</Th>
                   <Th>Title</Th>
                   <Th>Tenderee Wallet Address</Th>
                   <Th>Category</Th>
-                  <Th isNumeric></Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -129,27 +90,6 @@ const TPermissions = () => {
                         ))}
                       </ul>
                     </Td>
-                    <Td isNumeric>
-                      <HStack spacing="4">
-                        <Button
-                          variant={'outline'}
-                          color="black.500"
-                          onClick={() => acceptHandler(tender._id)}
-                          disabled={tender.status === 'accepted'}
-                        >
-                          <AiOutlineCheck color="green" />
-                          Accept
-                        </Button>
-                        <Button
-                          color={'purple.600'}
-                          onClick={() => rejectHandler(tender._id)}
-                          disabled={tender.status === 'accepted'}
-                        >
-                          <AiOutlineClose color="red" />
-                          Reject
-                        </Button>
-                      </HStack>
-                    </Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -163,10 +103,11 @@ const TPermissions = () => {
               Next
             </Button>
           </Box>
-          <HStack marginBottom={'2rem'}></HStack>
         </>
       )}
     </Box>
+    <HStack marginBottom={"2rem"}></HStack>
+    </>
   );
 };
-export default TPermissions;
+export default ApprovedTenders;

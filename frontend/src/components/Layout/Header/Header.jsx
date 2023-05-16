@@ -1,8 +1,10 @@
-import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, HStack, useDisclosure, VStack } from '@chakra-ui/react'
+import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure,HStack, VStack } from '@chakra-ui/react'
 import React from 'react'
 import {ColorModeSwitcher} from '../../../ColorModeSwitcher'
 import { RiLogoutBoxRLine, RiMenu5Fill} from 'react-icons/ri'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../../redux/actions/user'
 
 
 const LinkButton = ({url="/", title='Home',onClose})=>(
@@ -14,10 +16,11 @@ const LinkButton = ({url="/", title='Home',onClose})=>(
 const Header = () => {
 
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const isAuthenticated = true;
+    const {isAuthenticated} = useSelector(state=>state.user)
+    const dispatch = useDispatch();
 
 const logoutHandler = ()=>{
-    console.log('Logged Out')
+    dispatch(logout());
     onClose();
 
 }
@@ -49,10 +52,9 @@ const logoutHandler = ()=>{
 
                     >
                         <LinkButton onClose={onClose} url="/" title="Home"/>
-                        <LinkButton onClose={onClose} url="/admin/permissions" title="Block-Chain Permissons"/>
-                        <LinkButton onClose={onClose} url="/admin/tpermissions" title="Tender Permissons"/>
+                        
                         {
-                            isAuthenticated?(
+                            isAuthenticated?( 
                             <>
                                 <HStack
                                     justifyContent={'space-evenly'}
@@ -62,6 +64,8 @@ const logoutHandler = ()=>{
                                     >
                                     <Button variant={'ghost'} onClick={logoutHandler}> <RiLogoutBoxRLine/> Logout</Button>
                                 </HStack>
+                                <LinkButton onClose={onClose} url="/admin/tpermissions" title="Tender Permissons"/>
+                                <LinkButton onClose={onClose} url="/admin/approvedtenders" title="Approved Tenders"/>
                                 <LinkButton onClose={onClose} url="/admin/users" title="All Users"/>
                             </>
                             ):(
@@ -73,8 +77,6 @@ const logoutHandler = ()=>{
                                     width='80%'
                                     >
                                     <Link to="/Login" onClick={onClose}><Button colorScheme={'yellow'}>Login</Button></Link>
-                                    <p>OR</p>
-                                    <Link to="/register" onClick={onClose}><Button colorScheme={'yellow'}>Sign Up</Button></Link>
 
                                     </HStack>
 

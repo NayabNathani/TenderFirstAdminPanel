@@ -10,6 +10,9 @@ const Footer = () => {
     padding={'4'}
     bg='blackAlpha.900'
     minH={'10vh'}
+    bottom={0}
+    position={"fixed"}
+    w={'100%'}
     >
         <Stack
         direction={['column','row']}>
@@ -19,7 +22,7 @@ const Footer = () => {
                 color={'white'}
                 />
                 <Heading 
-                children='@Ali Nayab Nathani' 
+                children='@TenderFirst' 
                 color={'yellow.400'}
                 fontFamily="body"
                 size={'sm'}
@@ -37,7 +40,7 @@ const Footer = () => {
                 <a href='https://www.instagram.com/nayabnathani/?hl=en' target={'blank'} rel="noopener noreferrer">
                     <TiSocialInstagramCircular className='brandsBanner'/>
                 </a>
-                <a href='https://www.linkedin.com/in/ali-nayab-nathani-a85b88243/' target={'blank'} rel="noopener noreferrer">
+                <a href='https://pk.linkedin.com/in/alinayabnathani' target={'blank'} rel="noopener noreferrer">
                     <TiSocialLinkedinCircular className='brandsBanner'/>
                 </a>
                 <a href='https://github.com/NayabNathani' target={'blank'} rel="noopener noreferrer" >
