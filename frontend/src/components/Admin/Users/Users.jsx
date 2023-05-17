@@ -33,29 +33,29 @@ const Users = () => {
       });
   }, []);
 
-  const deleteButtonHandler = async userId => {
-    try {
-      console.log(userId);
-      const response = await axios.post(
-        API_URL + '/user/delete',
-        { userId },
-        { withCredentials: true }
-      );
-      if (response.data.success) {
-        const updatedUsers = users.filter(user => user._id !== userId);
-        setUsers(updatedUsers);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const deleteButtonHandler = async userId => {
+  //   try {
+  //     console.log(userId);
+  //     const response = await axios.post(
+  //       API_URL + '/user/delete',
+  //       { userId },
+  //       { withCredentials: true }
+  //     );
+  //     if (response.data.success) {
+  //       const updatedUsers = users.filter(user => user._id !== userId);
+  //       setUsers(updatedUsers);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const indexOfLastUser = currentPage * 10;
   const indexOfFirstUser = indexOfLastUser - 10;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
   const renderUsers = currentUsers.map(item => (
-    <Row deleteButtonHandler={deleteButtonHandler} key={item._id} item={item} />
+    <Row key={item._id} item={item} />
   ));
 
   const pageNumbers = [];
@@ -94,7 +94,7 @@ const Users = () => {
                 <Th>Wallet Address</Th>
                 <Th>Pool</Th>
                 <Th>Categories</Th>
-                <Th isNumeric>Action</Th>
+                {/* <Th isNumeric>Action</Th> */}
               </Tr>
             </Thead>
             <Tbody>{renderUsers}</Tbody>
@@ -108,7 +108,7 @@ const Users = () => {
   );
 };
 
-function Row({ item, deleteButtonHandler }) {
+function Row({ item }) {
   return (
     <Tr>
       {item.isAdmin === true ? (
@@ -135,7 +135,7 @@ function Row({ item, deleteButtonHandler }) {
               <span key={category._id}>{category.title}, </span>
             ))}
           </Td>
-          <Td isNumeric>
+          {/* <Td isNumeric>
             <HStack justifyContent={'flex-end'}>
               <Button
                 color={'purple.600'}
@@ -144,7 +144,7 @@ function Row({ item, deleteButtonHandler }) {
                 <RiDeleteBin7Fill />
               </Button>
             </HStack>
-          </Td>
+          </Td> */}
         </>
       )}
     </Tr>
